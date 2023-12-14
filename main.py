@@ -11,23 +11,21 @@ class Item(BaseModel):
     name: str
     price: float
 
-items = []
-
 @app.post("/items", response_model=Item, status_code=201)
-async def create_item(item: Item):
-    items.append(item)
+def create_item(item: Item):
+    fake_db.append(item)
     return item
 
 @app.get("/items", response_model=List[Item],status_code=200)
-async def read_items():
-    return items
+def read_items():
+    return fake_db
 
 @app.put("/items", response_model=Item, status_code=200)
-async def update_item(item_id:int, item:Item):
-    items[item_id] = item
+def update_item(item_id:int, item:Item):
+    fake_db[item_id] = item
     return item
 
 @app.delete("/items/{item_id}", status_code=204)
-async def delete_items(item_id:int, item:Item):
-    del items[item_id]
+def delete_items(item_id:int, item:Item):
+    del fake_db[item_id]
     return ("succesfully! Item delete")
